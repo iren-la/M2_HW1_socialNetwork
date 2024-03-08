@@ -1,26 +1,4 @@
 fun main(){
-    //создание нового поста
-    val newPost = Post(
-        fromId = 1,
-        ownerId = 1,
-        date = 1709891079,
-        text = "Новый пост",
-        friendsOnly = true,
-        canPin = true
-    )
-
-    //редактирование поста по postId
-    val editPost = Post (
-        postId = 1,
-        fromId = 1,
-        ownerId = 1,
-        date = 1709891079,
-        text = "Откорректированный пост",
-        friendsOnly = false,
-        canPin = true
-    )
-    WallService.add(newPost)
-    WallService.update(editPost)
 }
 
 data class Post(
@@ -66,5 +44,10 @@ object WallService{
             }
         }
         return false
+    }
+
+    fun clear() {
+        posts = emptyArray()
+        counter = 0
     }
 }
