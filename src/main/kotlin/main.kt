@@ -1,6 +1,6 @@
 fun main(){
     //создание нового поста
-    val newPost: Post = Post(
+    val newPost = Post(
         fromId = 1,
         ownerId = 1,
         date = 1709891079,
@@ -10,7 +10,7 @@ fun main(){
     )
 
     //редактирование поста по postId
-    val editPost: Post = Post (
+    val editPost = Post (
         postId = 1,
         fromId = 1,
         ownerId = 1,
