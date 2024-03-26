@@ -14,13 +14,9 @@ data class Post(
     val canEdit: Boolean = true,
     val likes: Like = Like(),
     val comments: Comment = Comment(),
-    val replyOwnerId: Int?,
-    val replyPostId: Post?
 )
 
 data class Comment(val count: Int = 0)
-
-data class Link(val url: String, val title: String, val description: String)
 
 data class Like(
     val count: Int = 0,

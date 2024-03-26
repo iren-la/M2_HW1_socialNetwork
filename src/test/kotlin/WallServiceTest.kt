@@ -18,8 +18,6 @@ class WallServiceTest {
             text = "Новый пост",
             friendsOnly = true,
             canPin = true,
-            replyOwnerId = null,
-            replyPostId = null
         )
 
         val result: Int = WallService.add(newPost).postId
@@ -30,8 +28,8 @@ class WallServiceTest {
     @Test
     fun updateWithRealPost() {
         //добавление постов в массив
-        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null))
-        WallService.add(Post(fromId = 2, ownerId = 1, date = 1709891095, text = "Новый пост 2", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null))
+        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true))
+        WallService.add(Post(fromId = 2, ownerId = 1, date = 1709891095, text = "Новый пост 2", friendsOnly = true, canPin = true))
 
         //новый пост для изменений
         val editPost = Post(
@@ -42,8 +40,6 @@ class WallServiceTest {
             text = "Изменённый текст",
             friendsOnly = true,
             canPin = true,
-            replyOwnerId = null,
-            replyPostId = null
         )
 
         val result = WallService.update(editPost)
@@ -54,8 +50,8 @@ class WallServiceTest {
     @Test
     fun updateIncorrectPost() {
         //добавление постов в массив
-        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null))
-        WallService.add(Post(fromId = 2, ownerId = 1, date = 1709891095, text = "Новый пост 2", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null))
+        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true))
+        WallService.add(Post(fromId = 2, ownerId = 1, date = 1709891095, text = "Новый пост 2", friendsOnly = true, canPin = true))
 
         //новый пост с несуществующим id
         val editPost = Post(
@@ -66,8 +62,6 @@ class WallServiceTest {
             text = "Изменённый текст",
             friendsOnly = true,
             canPin = true,
-            replyOwnerId = null,
-            replyPostId = null
         )
 
         val result = WallService.update(editPost)
