@@ -20,8 +20,6 @@ data class Post(
 
 data class Comment(val count: Int = 0)
 
-data class Link(val url: String, val title: String, val description: String)
-
 data class Like(
     val count: Int = 0,
     val userLikes: Boolean = false
