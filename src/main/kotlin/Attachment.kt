@@ -1,30 +1,9 @@
-interface Attachment {
-    val type: String
-}
-class PhotoAttachment (
-    override val type: String,
-    val photo: Photo
-) : Attachment
-
-class AudioAttachment (
-    override val type: String,
-    val audio: Audio
-) : Attachment
-
-class VideoAttachment (
-    override val type: String,
-    val video: Video
-) : Attachment
-
-class LinkAttachment (
-    override val type: String,
-    val link: Link
-) : Attachment
-
-class DocAttachment (
-    override val type: String,
-    val doc: Doc
-) : Attachment
+sealed class Attachment (val type: String)
+data class PhotoAttachment (val photo: Photo) : Attachment("photo")
+data class AudioAttachment (val audio: Audio) : Attachment("audio")
+data class VideoAttachment (val video: Video) : Attachment("video")
+data class LinkAttachment (val link: Link) : Attachment("link")
+data class DocAttachment (val doc: Doc) : Attachment("doc")
 
 //классы объектов разных файлов
 data class Photo(
