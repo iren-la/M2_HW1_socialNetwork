@@ -14,8 +14,6 @@ data class Post(
     val canEdit: Boolean = true,
     val likes: Like = Like(),
     val comments: Comment = Comment(),
-    val replyOwnerId: Int?,
-    val replyPostId: Post?
 )
 
 data class Comment(val count: Int = 0)
