@@ -15,7 +15,8 @@ data class Post(
     val likes: Like = Like(),
     val comments: Comment = Comment(),
     val replyOwnerId: Int?,
-    val replyPostId: Post?
+    val replyPostId: Post?,
+    val attachment: Array<Attachment>?
 )
 
 data class Comment(val count: Int = 0)
