@@ -77,4 +77,68 @@ class WallServiceTest {
 
         assertEquals(false, result)
     }
+
+    @Test
+    fun addCommentForRealPost () {
+        //добавление нового поста
+        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null, attachment = null))
+
+        //добавление нового комментария
+        val newComment = Comment(
+            id = 1,
+            fromId = 1,
+            date = 132828,
+            text = "new comment",
+            post = null
+        )
+
+        WallService.addComment(1,newComment)
+        val result = true
+
+        assertEquals(true, result)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        //добавление нового комментария
+        val newComment = Comment(
+            id = 1,
+            fromId = 1,
+            date = 132828,
+            text = "new comment",
+            post = null
+        )
+
+        WallService.addComment(1, newComment)
+    }
+
+    @Test
+    fun addNewReport() {
+        //добавление нового поста
+        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null, attachment = null))
+
+        //добавление нового комментария
+        WallService.addComment(1, Comment(id = 1, fromId = 1, date = 132828, text = "new comment", post = null))
+
+        WallService.addReportComment(1, 1, 1, 2)
+        val result = true
+
+        assertEquals(true, result)
+    }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun addReportForIncorrectComment() {
+        WallService.addReportComment(1, 1, 1, 2)
+    }
+
+    @Test(expected = ReasonNotFoundException::class)
+    fun addReportWithIncorrectReason() {
+        //добавление нового поста
+        WallService.add(Post(fromId = 1, ownerId = 1, date = 1709891079, text = "Новый пост", friendsOnly = true, canPin = true, replyOwnerId = null, replyPostId = null, attachment = null))
+
+        //добавление нового комментария
+        WallService.addComment(1, Comment(id = 1, fromId = 1, date = 132828, text = "new comment", post = null))
+
+        WallService.addReportComment(1, 1, 1, 10)
+    }
 }
