@@ -190,7 +190,7 @@ class NoteServiceTest {
     fun getCommentsNotActiveNote() {
         NoteService.addNote("Title 1", "Text for 1 note")
         NoteService.createComment(0, "Comment 1")
-        NoteService.createComment(0, "Comment 3")
+        NoteService.createComment(0, "Comment 2")
         NoteService.deleteNote(0)
         val result = NoteService.getComments(0)
         assertEquals(result.size == 0, true)
