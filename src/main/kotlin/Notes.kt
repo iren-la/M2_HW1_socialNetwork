@@ -115,7 +115,7 @@ object NoteService{
         var commentsList = mutableListOf<NoteComment>()
         try {
             for (comment in noteComments) {
-                if (comment.note.id == noteId) {
+                if (comment.note == getNoteById(noteId)) {
                     commentsList.add(comment)
                 }
             }
