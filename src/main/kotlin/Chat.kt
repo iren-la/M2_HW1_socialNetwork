@@ -27,29 +27,33 @@ object ChatService {
     fun getChats(user: User) = chats.filterKeys { it: Set<User> -> it.contains(user)}
 
     //получение количества непрочитанных сообщений для пользователя
-    fun getUnreadChatsCount (user: User) = chats.filterKeys { it: Set<User> -> it.contains(user) }.values
-        .count {chat: Chat ->  chat.messages.any {message: Message -> !message.isRead }}
+    fun getUnreadChatsCount (user: User) = chats.asSequence()
+        .filter { it.key.contains(user) && it.value.messages.any { message: Message -> !message.isRead } }
+        .count ()
 
     //получить сообщения из чата с определенным пользователем
-    fun getMessagesChat (users: Set<User>, count: Int) = chats.getValue(users).messages
+    fun getMessagesChat (users: Set<User>, count: Int) = chats
+        .getValue(users).messages
+        .asSequence()
         .filter { it.isActive }
-        .takeLast(count)
+        .take(count)
         .onEach { message: Message -> message.isRead = true}
+        .toList()
 
     //получить последнии собщения из всех чатов пользователя
-    fun getLastMessages (user: User) = if (chats.filterKeys { it.contains(user) }.isEmpty()) {
-            listOf("No messages")
-        } else {
-            chats.filterKeys { it.contains(user) }
-                .values.map { chat: Chat -> chat.messages.lastOrNull{ it.isActive }?.text ?: "No messages" }
-        }
+    fun getLastMessages (user: User) = chats.asSequence()
+        .filter {  it: Map.Entry<Set<User>, Chat> -> it.key.contains(user) }
+        .map { it: Map.Entry<Set<User>, Chat> -> it.value.messages.last().text }
+        .toList()
+        .ifEmpty { listOf("No message") }
 
 
     //удалить чат
     fun deleteChat (users: Set<User>): Int {
         try {
-            chats[users]?.isActive = false
-            chats[users]?.messages?.onEach { it.isActive = false } ?: throw ChatNotFoundException ("No chat ot chat is deleted")
+            val chat = chats[users] ?: throw ChatNotFoundException ("No chat")
+            chat.isActive = false
+            chat.messages.onEach { it.isActive = false }
             return 1
         } catch (e: ChatNotFoundException) {
             return -1
@@ -59,10 +63,11 @@ object ChatService {
     //удалить сообщение в чате
     fun deleteMessage (users: Set<User>, messageId: Int): Int {
         try {
-            chats[users]?.messages
-                ?.filter {it.id == messageId && it.isActive }
-                ?.onEach { it.isActive = false }
-                ?.lastOrNull() ?: throw MessagesNotFoundException ("No message or message is deleted")
+            val chat = chats[users] ?: throw MessagesNotFoundException ("No message or message is deleted")
+            chat.messages
+                .asSequence()
+                .filter {it.id == messageId && it.isActive }
+                .onEach { it.isActive = false }
             return 1
         } catch (e: MessagesNotFoundException) {
             return -1
